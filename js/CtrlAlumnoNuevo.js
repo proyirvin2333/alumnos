@@ -1,34 +1,21 @@
-import {
-  getAuth,
-  getFirestore
-} from "../lib/fabrica.js";
-import {
-  getString,
-  muestraError
-} from "../lib/util.js";
-import {
-  muestraAlumnos
-} from "./navegacion.js";
-import {
-  tieneRol
-} from "./seguridad.js";
+import { getAuth, getFirestore } from "../lib/fabrica.js";
+import { getString, muestraError } from "../lib/util.js";
+import { muestraAlumnos } from "./navegacion.js";
+import { tieneRol } from "./seguridad.js";
 
-const daoAlumno =
-  getFirestore().
-    collection("Alumno");
+const daoAlumno = getFirestore().collection("Alumno");
+
+
 /** @type {HTMLFormElement} */
 const forma = document["forma"];
-getAuth().onAuthStateChanged(
-  protege, muestraError);
+getAuth().onAuthStateChanged(protege, muestraError);
 
 /** @param {import(
     "../lib/tiposFire.js").User}
     usuario */
 async function protege(usuario) {
-  if (tieneRol(usuario,
-    ["Administrador"])) {
-    forma.addEventListener(
-      "submit", guarda);
+  if (tieneRol(usuario, ["Administrador"])) {
+    forma.addEventListener("submit", guarda);
   }
 }
 
@@ -36,10 +23,8 @@ async function protege(usuario) {
 async function guarda(evt) {
   try {
     evt.preventDefault();
-    const formData =
-      new FormData(forma);
-    const matricula = getString(
-        formData, "matricula").trim();  
+    const formData = new FormData(forma);
+    const matricula = getString(formData, "matricula").trim();
     const nombre = getString(formData, "nombre").trim();
     const telefono = getString(formData, "telefono").trim();
     const grupo = getString(formData, "grupo").trim();
@@ -53,10 +38,9 @@ async function guarda(evt) {
       nombre,
       telefono,
       grupo,
-      fecha 
+      fecha
     };
-    await daoAlumno.
-      add(modelo);
+    await daoAlumno.add(modelo);
     muestraAlumnos();
   } catch (e) {
     muestraError(e);

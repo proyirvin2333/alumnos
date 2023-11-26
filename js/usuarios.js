@@ -1,15 +1,7 @@
-import {
-  getFirestore
-} from "../lib/fabrica.js";
-import {
-  subeStorage
-} from "../lib/storage.js";
-import {
-  cod, getForánea, muestraError
-} from "../lib/util.js";
-import {
-  muestraUsuarios
-} from "./navegacion.js";
+import { getFirestore } from "../lib/fabrica.js";
+import { subeStorage } from "../lib/storage.js";
+import { cod, getForánea, muestraError } from "../lib/util.js";
+import { muestraUsuarios } from "./navegacion.js";
 
 const SIN_ALUMNOS = /* html */
   `<option value="">
@@ -17,37 +9,27 @@ const SIN_ALUMNOS = /* html */
   </option>`;
 
 const firestore = getFirestore();
-const daoRol = firestore.
-  collection("Rol");
-const daoAlumno = firestore.
-  collection("Alumno");
-const daoUsuario = firestore.
-  collection("Usuario");
+const daoRol = firestore.collection("Rol");
+const daoAlumno = firestore.collection("Alumno");
+const daoUsuario = firestore.collection("Usuario");
 
 /**
  * @param {
     HTMLSelectElement} select
  * @param {string} valor */
-export function
-  selectAlumnos(select,
-    valor) {
+export function selectAlumnos(select,
+  valor) {
   valor = valor || "";
-  daoAlumno.
-    orderBy("nombre").
-    onSnapshot(
-      snap => {
-        let html = SIN_ALUMNOS;
-        snap.forEach(doc =>
-          html += htmlAlumno(
-            doc, valor));
-        select.innerHTML = html;
-      },
-      e => {
-        muestraError(e);
-        selectAlumnos(
-          select, valor);
-      }
-    );
+  daoAlumno.orderBy("nombre").onSnapshot(snap => {
+    let html = SIN_ALUMNOS;
+    snap.forEach(doc => html += htmlAlumno(doc, valor));
+    select.innerHTML = html;
+  },
+    e => {
+      muestraError(e);
+      selectAlumnos(select, valor);
+    }
+  );
 }
 
 /**
@@ -55,11 +37,8 @@ export function
   import("../lib/tiposFire.js").
   DocumentSnapshot} doc
  * @param {string} valor */
-function
-  htmlAlumno(doc, valor) {
-  const selected =
-    doc.id === valor ?
-      "selected" : "";
+function htmlAlumno(doc, valor) {
+  const selected = doc.id === valor ? "selected" : "";
   /**
    * @type {import("./tipos.js").
                   Alumno} */
@@ -75,26 +54,21 @@ function
 /**
  * @param {HTMLElement} elemento
  * @param {string[]} valor */
-export function
-  checksRoles(elemento, valor) {
-  const set =
-    new Set(valor || []);
-  daoRol.onSnapshot(
-    snap => {
-      let html = "";
-      if (snap.size > 0) {
-        snap.forEach(doc =>
-          html +=
-          checkRol(doc, set));
-      } else {
-        html += /* html */
-          `<li class="vacio">
+export function checksRoles(elemento, valor) {
+  const set = new Set(valor || []);
+  daoRol.onSnapshot(snap => {
+    let html = "";
+    if (snap.size > 0) {
+      snap.forEach(doc => html += checkRol(doc, set));
+    } else {
+      html += /* html */
+        `<li class="vacio">
               -- No hay roles
               registrados. --
             </li>`;
-      }
-      elemento.innerHTML = html;
-    },
+    }
+    elemento.innerHTML = html;
+  },
     e => {
       muestraError(e);
       checksRoles(

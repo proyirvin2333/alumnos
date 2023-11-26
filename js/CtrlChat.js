@@ -1,18 +1,8 @@
-import {
-  getAuth,
-  getFirestore
-} from "../lib/fabrica.js";
-import {
-  cod,
-  getString,
-  muestraError
-} from "../lib/util.js";
-import {
-  tieneRol
-} from "./seguridad.js";
+import { getAuth, getFirestore } from "../lib/fabrica.js";
+import { cod, getString, muestraError } from "../lib/util.js";
+import { tieneRol } from "./seguridad.js";
 
-const daoMensaje = getFirestore().
-  collection("Mensaje");
+const daoMensaje = getFirestore().collection("Mensaje");
 let usuarioId = "";
 /** @type {HTMLFormElement} */
 const forma = document["forma"];
@@ -20,19 +10,16 @@ const forma = document["forma"];
 const lista = document.
   querySelector("#lista");
 
-getAuth().onAuthStateChanged(
-  protege, muestraError);
+getAuth().onAuthStateChanged(protege, muestraError);
 
 /** @param {import(
     "../lib/tiposFire.js").User}
     usuario */
 async function protege(usuario) {
-  if (tieneRol(usuario,
-    ["Cliente"])) {
+  if (tieneRol(usuario, ["Cliente"])) {
     usuarioId = usuario.email;
     consulta();
-    forma.addEventListener(
-      "submit", agrega);
+    forma.addEventListener("submit", agrega);
   }
 }
 

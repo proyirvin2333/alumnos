@@ -1,17 +1,7 @@
-import {
-  getAuth,
-  getFirestore
-} from "../lib/fabrica.js";
-import {
-  getString,
-  muestraError
-} from "../lib/util.js";
-import {
-  muestraAlumnos
-} from "./navegacion.js";
-import {
-  tieneRol
-} from "./seguridad.js";
+import { getAuth, getFirestore } from "../lib/fabrica.js";
+import { getString, muestraError } from "../lib/util.js";
+import { muestraAlumnos } from "./navegacion.js";
+import { tieneRol } from "./seguridad.js";
 
 const daoAlumno =
   getFirestore().
@@ -77,7 +67,7 @@ async function guarda(evt) {
     const formData =
       new FormData(forma);
     const matricula = getString(
-        formData, "matricula").trim();  
+      formData, "matricula").trim();
     const nombre = getString(formData, "nombre").trim();
     const telefono = getString(formData, "telefono").trim();
     const grupo = getString(formData, "grupo").trim();
@@ -87,7 +77,7 @@ async function guarda(evt) {
         import("./tipos.js").
                 Alumno} */
     const modelo = {
-      matricula, 
+      matricula,
       nombre,
       telefono,
       grupo,

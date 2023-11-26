@@ -1,19 +1,11 @@
-import {
-  getAuth
-} from "../lib/fabrica.js";
-import {
-  muestraError
-} from "../lib/util.js";
-import {
-  iniciaSesión,
-  terminaSesión
-} from "./seguridad.js";
+import { getAuth } from "../lib/fabrica.js";
+import { muestraError } from "../lib/util.js";
+import { iniciaSesión, terminaSesión } from "./seguridad.js";
 
 /** @type {HTMLFormElement} */
 const forma = document["forma"];
 /** @type {HTMLImageElement} */
-const avatar = document.
-  querySelector("#avatar");
+const avatar = document.querySelector("#avatar");
 
 /* Escucha cambios de usuario.
  * El primer parámetro es una
@@ -25,8 +17,7 @@ const avatar = document.
  * presenta un error en un cambio
  * de usuario y recibe un Error.
  */
-getAuth().onAuthStateChanged(
-  muestraSesión, muestraError);
+getAuth().onAuthStateChanged(muestraSesión, muestraError);
 
 /** Muestra los datos del usuario
  * o manda a iniciar sesión en
@@ -41,15 +32,10 @@ async function
   muestraSesión(usuario) {
   if (usuario && usuario.email) {
     // Usuario aceptado.
-    forma.email.value =
-      usuario.email || "";
-    forma.nombre.value =
-      usuario.displayName || "";
-    avatar.src =
-      usuario.photoURL || "";
-    forma.terminarSesión.
-      addEventListener(
-        "click", terminaSesión);
+    forma.email.value = usuario.email || "";
+    forma.nombre.value = usuario.displayName || "";
+    avatar.src = usuario.photoURL || "";
+    forma.terminarSesión.addEventListener("click", terminaSesión);
   } else {
     // No ha iniciado sesión.
     iniciaSesión();

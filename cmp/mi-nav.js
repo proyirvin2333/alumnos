@@ -1,12 +1,6 @@
-import {
-  cargaRoles
-} from "../js/seguridad.js";
-import {
-  getAuth
-} from "../lib/fabrica.js";
-import {
-  muestraError
-} from "../lib/util.js";
+import { cargaRoles } from "../js/seguridad.js";
+import { getAuth } from "../lib/fabrica.js";
+import { muestraError } from "../lib/util.js";
 
 class MiNav extends HTMLElement {
   connectedCallback() {
@@ -17,12 +11,8 @@ class MiNav extends HTMLElement {
             Sesión</a>
         </li>
       </ul>`;
-    this.ul =
-      this.querySelector("ul");
-    getAuth().onAuthStateChanged(
-      usuario => this.
-        cambiaUsuario(usuario),
-      muestraError);
+    this.ul = this.querySelector("ul");
+    getAuth().onAuthStateChanged(usuario => this.cambiaUsuario(usuario), muestraError);
   }
 
   /**
@@ -32,10 +22,8 @@ class MiNav extends HTMLElement {
   async cambiaUsuario(usu) {
     if (usu && usu.email) {
       let html = "";
-      const roles =
-        await cargaRoles(
-          usu.email);
-     if (roles.has("Cliente")) {
+      const roles = await cargaRoles(usu.email);
+      if (roles.has("Cliente")) {
         html += /* html */
           `<li>
             <a href=
@@ -46,8 +34,7 @@ class MiNav extends HTMLElement {
         "Administrador")) {
         html += /* html */
           `<li>
-            <a href=
-"alumnos.html">Alumnos</a>
+            <a href="alumnos.html">Alumnos</a>
           </li>`;
       }
       this.ul.innerHTML += html;
